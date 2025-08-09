@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Купівля: Хімчистка салону</title>
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    main {
+      background: #fff;
+      max-width: 480px;
+      width: 100%;
+      border-radius: 16px;
+      box-shadow:
+        0 10px 20px rgba(123, 47, 247, 0.25),
+        0 6px 6px rgba(241, 7, 163, 0.15);
+      padding: 40px 30px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    main:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 15px 30px rgba(123, 47, 247, 0.35),
+        0 10px 10px rgba(241, 7, 163, 0.25);
+    }
+
+    header {
+      font-size: 28px;
+      font-weight: 700;
+      color: #6a0dad;
+      margin-bottom: 25px;
+      user-select: none;
+      text-shadow: 1px 1px 3px rgba(106,13,173,0.7);
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(106,13,173,0.2);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    img:hover {
+      transform: scale(1.05);
+    }
+
+    p.description {
+      font-size: 17px;
+      color: #444;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    p.price {
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 35px;
+      color: #9b27ff;
+      text-shadow: 1px 1px 4px rgba(155, 39, 255, 0.7);
+      user-select: none;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: 600;
+      color: #6a0dad;
+      font-size: 15px;
+      margin-bottom: 6px;
+      user-select: none;
+    }
+
+    input[type="text"],
+    input[type="tel"] {
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid #d1c4fc;
+      outline-color: #9b27ff;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 500;
+      color: #333;
+      user-select: text;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus {
+      border-color: #6a0dad;
+      box-shadow: 0 0 8px #9b27ffaa;
+    }
+
+    button.buy-btn {
+      background: linear-gradient(135deg, #6a0dad, #9b27ff);
+      color: white;
+      border: none;
+      padding: 15px 0;
+      font-size: 20px;
+      font-weight: 700;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.35s ease, box-shadow 0.3s ease;
+      user-select: none;
+      box-shadow: 0 6px 15px #9b27ffcc;
+    }
+
+    button.buy-btn:hover {
+      background: linear-gradient(135deg, #9b27ff, #6a0dad);
+      box-shadow: 0 8px 20px #6a0dadcc;
+    }
+
+    .success-message {
+      color: #388e3c;
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 20px;
+      user-select: none;
+      animation: fadeIn 0.7s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 22px;
+      color: #6a0dad;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    a.back-link:hover {
+      color: #9b27ff;
+      text-decoration: underline;
+    }
+
+    /* Мобільна адаптивність */
+    @media (max-width: 520px) {
+      main {
+        padding: 30px 20px;
+      }
+      header {
+        font-size: 24px;
+      }
+      button.buy-btn {
+        font-size: 18px;
+        padding: 14px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>Хімчистка салону</header>
+    <img src="cleaning2.jpg" alt="Хімчистка салону" />
+    <p class="description">
+      Глибоке очищення салону авто від бруду, плям і неприємних запахів з використанням професійних засобів.
+    </p>
+    <p class="price">Ціна: 800 грн</p>
+
+    <form id="orderForm">
+      <label for="name">Ваше ім’я:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        placeholder="Ім'я"
+        autocomplete="name"
+      />
+
+      <label for="phone">Телефон:</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+        placeholder="+380 ХХХ ХХХ ХХ ХХ"
+        pattern="^\+?[\d\s\-]{7,15}$"
+        autocomplete="tel"
+      />
+
+      <button type="submit" class="buy-btn">Підтвердити покупку</button>
+    </form>
+
+    <div id="successMessage" class="success-message" style="display:none;">
+      Дякуємо за покупку послуги "Хімчистка салону"! З вами зв'яжуться найближчим часом.
+    </div>
+
+    <a href="index.html" class="back-link">← Назад до послуг</a>
+  </main>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const successMsg = document.getElementById('successMessage');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Тут можна додати відправку даних на сервер, якщо потрібно
+
+      form.style.display = 'none';
+      successMsg.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
+
