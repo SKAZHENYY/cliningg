@@ -262,4 +262,44 @@ body {
     color: #9b27ff;
     text-decoration: underline;
   }
+
+  /* Кошик */
+#cartContainer {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 40px;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 16px;
+  color: #fff;
+}
+
+#cartContainer h3 {
+  margin-top: 0;
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#cartItems {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+#cartItems li {
+  background: rgba(255,255,255,0.1);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#totalPrice {
+  font-weight: 700;
+  font-size: 18px;
+  text-align: right;
+};
+
   

@@ -235,6 +235,18 @@
       successMsg.style.display = 'block';
     });
   </script>
+
+  <script>
+    const buyBtn = document.querySelector('.buy-btn');
+    buyBtn.addEventListener('click', () => {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const name = buyBtn.dataset.name;
+      const price = parseInt(buyBtn.dataset.price);
+      cart.push({name, price});
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} додано до кошика!`);
+    });
+  </script>
 </body>
 </html>
 
