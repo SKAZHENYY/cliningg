@@ -1,47 +1,57 @@
-// Тепер кнопки корзини — посилання, JS для alert видаляємо або залишаємо для картки
+// ===== Робота з кукі =====
+function getCartFromCookie() {
+  const cookie = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('cart='));
+  if (!cookie) return [];
+  try {
+    return JSON.parse(decodeURIComponent(cookie.split('=')[1])) || [];
+  } catch {
+    return [];
+  }
+}
 
-// Якщо хочеш, щоб при кліку на саму картку (крім корзини) було повідомлення
-document.querySelectorAll('.service-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      // Щоб не спрацьовувало при кліку по кнопці корзини
-      if (e.target.closest('.add-cart-btn')) return;
-  
-      const name = card.querySelector('h3').textContent;
-      alert(`Ви обрали послугу: ${name}`);
-    });
-  });
+function saveCartToCookie(cart) {
+  // кукі на 7 днів
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 7);
+  document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))};expires=${expires.toUTCString()};path=/`;
+}
 
-
+// ===== Вивід кошика =====
 const cartItemsElem = document.getElementById('cartItems');
 const totalPriceElem = document.getElementById('totalPrice');
 
-// Завантажуємо кошик з localStorage
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let cart = getCartFromCookie();
 
 function renderCart() {
+  if (!cartItemsElem) return;
   cartItemsElem.innerHTML = '';
   let total = 0;
-  cart.forEach(item => {
+
+  cart.forEach((item, index) => {
     const li = document.createElement('li');
-    li.textContent = `${item.name} - ${item.price} грн`;
+    li.textContent = `${item.name} — ${item.price} грн × ${item.quantity || 1}`;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Видалити';
+    removeBtn.style.marginLeft = '10px';
+    removeBtn.onclick = () => {
+      cart.splice(index, 1);
+      saveCartToCookie(cart);
+      renderCart();
+    };
+
+    li.appendChild(removeBtn);
     cartItemsElem.appendChild(li);
-    total += item.price;
+
+    total += item.price * (item.quantity || 1);
   });
-  totalPriceElem.textContent = `Загальна сума: ${total} грн`;
+
+  if (totalPriceElem) {
+    totalPriceElem.textContent = `Загальна сума: ${total} грн`;
+  }
 }
 
-// Додаємо події на кнопки купівлі
-const buttons = document.querySelectorAll('.buy-btn');
-buttons.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const name = btn.dataset.name;
-    const price = parseInt(btn.dataset.price);
-    cart.push({name, price});
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-    alert(`${name} додано до кошика!`);
-  });
-});
-
+// ===== Ініціалізація =====
 renderCart();
