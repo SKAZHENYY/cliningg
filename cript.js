@@ -16,6 +16,7 @@ function saveCartToCookie(cart) {
   const expires = new Date();
   expires.setDate(expires.getDate() + 7);
   document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))};expires=${expires.toUTCString()};path=/`;
+  
 }
 
 // ===== Вивід кошика =====
@@ -35,18 +36,21 @@ function renderCart() {
 
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Видалити';
-    removeBtn.style.marginLeft = '10px';
+    removeBtn.classList.add('remove-btn');
     removeBtn.onclick = () => {
       cart.splice(index, 1);
       saveCartToCookie(cart);
       renderCart();
     };
 
+
     li.appendChild(removeBtn);
     cartItemsElem.appendChild(li);
 
     total += item.price * (item.quantity || 1);
   });
+
+  
 
   if (totalPriceElem) {
     totalPriceElem.textContent = `Загальна сума: ${total} грн`;
@@ -55,3 +59,18 @@ function renderCart() {
 
 // ===== Ініціалізація =====
 renderCart();
+
+
+document.getElementById('clearCartBtn').onclick = () => {
+  if (cart.length === 0) {
+    alert("Ваш кошик порожній!");
+    return;
+  }
+
+  // Тут можна додати логіку відправки замовлення на сервер
+  alert("✅ Замовлення оформлено!");
+
+  cart = [];
+  saveCartToCookie(cart);
+  renderCart();
+};

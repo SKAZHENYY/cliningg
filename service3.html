@@ -221,31 +221,53 @@
 
     <a href="index.html" class="back-link">← Назад до послуг</a>
   </main>
-
   <script>
+    /* ===== Допоміжні функції для cookie ===== */
+    function setCookie(name, value, days = 7) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    }
+
+    function getCookie(name) {
+      return document.cookie.split('; ').reduce((acc, pair) => {
+        const [k, v] = pair.split('=');
+        return k === name ? decodeURIComponent(v) : acc;
+      }, '');
+    }
+
+    /* ===== Логіка оформлення покупки ===== */
     const form = document.getElementById('orderForm');
     const successMsg = document.getElementById('successMessage');
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // Можна тут додати відправку даних на сервер
+      // 1) Вичитуємо кошик із cookie
+      let cart = [];
+      try {
+        cart = JSON.parse(getCookie('cart') || '[]');
+        if (!Array.isArray(cart)) cart = [];
+      } catch (_) {
+        cart = [];
+      }
 
+      // 2) Додаємо поточну послугу
+      const item = {
+        id: 'service-wash',     // опціонально унікальний id
+        name: 'Полірування кузова',
+        price: 1200,
+        quantity: 1
+      };
+      cart.push(item);
+
+      // 3) Записуємо назад у cookie (на 7 днів)
+      setCookie('cart', JSON.stringify(cart), 7);
+
+      // 4) Ховаємо форму та показуємо повідомлення успіху
       form.style.display = 'none';
       successMsg.style.display = 'block';
     });
   </script>
-
-  <script>
-    const buyBtn = document.querySelector('.buy-btn');
-    buyBtn.addEventListener('click', () => {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const name = buyBtn.dataset.name;
-      const price = parseInt(buyBtn.dataset.price);
-      cart.push({name, price});
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${name} додано до кошика!`);
-    });
-  </script>
+  
 </body>
 </html>
